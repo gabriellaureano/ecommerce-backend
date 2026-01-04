@@ -1,15 +1,16 @@
 package com.gabriellaureano.ecommerce.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "tb_orders")
 public class Order {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private LocalDateTime data;
@@ -19,4 +20,7 @@ public class Order {
     @ManyToOne
     @JoinColumn(name = "user_id")
     User user;
+
+    @OneToMany(mappedBy = "order")
+    private List<OrderItem> items;
 }

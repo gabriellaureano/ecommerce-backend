@@ -3,6 +3,7 @@ package com.gabriellaureano.ecommerce.domain;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 @Table(name = "tb_products")
@@ -18,5 +19,8 @@ public class Product {
     private BigDecimal preco;
 
     private Integer estoque;
+
+    @OneToMany(mappedBy = "product")
+    private List<OrderItem> items;
 
 }
