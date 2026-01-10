@@ -25,7 +25,6 @@ public class Order {
     User user;
 
     @OneToMany(mappedBy = "order")
-    @JsonIgnore
     private List<OrderItem> items = new ArrayList<>();
 
     public Order() {
@@ -34,6 +33,7 @@ public class Order {
     }
 
     public Order(User user) {
+        this();
         this.user = user;
     }
 
@@ -67,5 +67,10 @@ public class Order {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public void addItem(OrderItem item){
+        items.add(item);
+        item.setOrder(this);
     }
 }

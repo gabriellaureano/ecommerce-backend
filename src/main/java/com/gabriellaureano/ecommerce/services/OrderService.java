@@ -4,6 +4,7 @@ import com.gabriellaureano.ecommerce.domain.Order;
 import com.gabriellaureano.ecommerce.domain.User;
 import com.gabriellaureano.ecommerce.repositories.OrderRepository;
 import com.gabriellaureano.ecommerce.repositories.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -30,5 +31,10 @@ public class OrderService {
         order.setData(LocalDateTime.now());
 
         return orderRepository.save(order);
+    }
+
+    public Order buscarPedido(Long id){
+        return orderRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Pedido nao encontrado"));
     }
 }

@@ -1,5 +1,6 @@
 package com.gabriellaureano.ecommerce.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -17,31 +18,41 @@ public class OrderItem {
 
     @ManyToOne
     @JoinColumn(name = "order_id")
+    @JsonIgnore
     Order order;
 
     @ManyToOne
     @JoinColumn(name = "product_id")
     Product product;
 
-    public OrderItem(Order order, Product product, Integer quantidade, BigDecimal precoUnitario) {
-
-        if (order == null)
-            throw new IllegalArgumentException("order igual a nulo");
-
-        if (product == null)
-            throw new IllegalArgumentException("produto igual a nulo");
-
-        if (quantidade == null ||quantidade <= 0)
-            throw new IllegalArgumentException("quantidade deve ser maior que zero");
-
-        if(precoUnitario == null || precoUnitario.compareTo(BigDecimal.ZERO) <= 0)
-            throw new IllegalArgumentException("preço deve ser maior que zero");
-
-
-        this.order = order;
-        this.product = product;
-        this.quantidade = quantidade;
-        this.precoUnitario = precoUnitario;
+    public OrderItem() {
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public Integer getQuantidade() {
+        return quantidade;
+    }
+
+    public BigDecimal getPrecoUnitario() {
+        return precoUnitario;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public void setQuantidade(Integer quantidade) {
+        this.quantidade = quantidade;
+    }
+
+    public void setPrecoUnitario(BigDecimal precoUnitario){
+        this.precoUnitario = precoUnitario;
+    }
 }

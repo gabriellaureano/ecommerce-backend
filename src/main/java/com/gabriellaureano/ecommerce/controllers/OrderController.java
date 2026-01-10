@@ -2,10 +2,7 @@ package com.gabriellaureano.ecommerce.controllers;
 
 import com.gabriellaureano.ecommerce.domain.Order;
 import com.gabriellaureano.ecommerce.services.OrderService;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/orders")
@@ -21,5 +18,11 @@ public class OrderController {
     public Order criarPedido(@PathVariable Long userId){
         return orderService.criarPedido(userId);
     }
+
+    @GetMapping("/{Id}")
+    public Order buscarPedido(@PathVariable Long Id){
+        return orderService.buscarPedido(Id);
+    }
+
 
 }
