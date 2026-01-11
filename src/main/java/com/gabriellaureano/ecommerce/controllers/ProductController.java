@@ -1,8 +1,10 @@
 package com.gabriellaureano.ecommerce.controllers;
 
 import com.gabriellaureano.ecommerce.domain.Product;
+import com.gabriellaureano.ecommerce.dto.ProductCreateDTO;
 import com.gabriellaureano.ecommerce.repositories.ProductRepository;
 import com.gabriellaureano.ecommerce.services.ProductService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,7 +24,7 @@ public class ProductController {
     }
 
     @PostMapping
-    public Product criar(@RequestBody Product product){
+    public Product criar(@RequestBody @Valid ProductCreateDTO product){
         return productService.criarProduto(product);
     }
 }

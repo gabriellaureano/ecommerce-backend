@@ -55,4 +55,8 @@ public class OrderItem {
     public void setPrecoUnitario(BigDecimal precoUnitario){
         this.precoUnitario = precoUnitario;
     }
+
+    public Product getProduct() {
+        return product;
+    }
 }

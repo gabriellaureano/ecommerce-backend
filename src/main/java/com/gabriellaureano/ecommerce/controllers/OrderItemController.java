@@ -2,7 +2,9 @@ package com.gabriellaureano.ecommerce.controllers;
 
 import com.gabriellaureano.ecommerce.domain.Order;
 import com.gabriellaureano.ecommerce.domain.OrderItem;
+import com.gabriellaureano.ecommerce.dto.AddProductDTO;
 import com.gabriellaureano.ecommerce.services.OrderItemService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -18,12 +20,9 @@ public class OrderItemController {
     }
 
     @PostMapping("/orders/{orderId}/item")
-        public OrderItem addProduct(@PathVariable Long orderId, @RequestBody Map<String,Integer> body){
+        public OrderItem addProduct(@PathVariable Long orderId,@Valid @RequestBody AddProductDTO addProductDTO){
 
-        Long produtId = body.get("productId").longValue();
-        Integer quantidade = body.get("quantidade");
-
-        return orderItemService.adicionarProduto(orderId,produtId,quantidade);
+        return orderItemService.adicionarProduto(orderId,addProductDTO.getProductId(), addProductDTO.getQuantidade());
     }
 
 }

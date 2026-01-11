@@ -2,12 +2,15 @@ package com.gabriellaureano.ecommerce.services;
 
 import com.gabriellaureano.ecommerce.domain.Order;
 import com.gabriellaureano.ecommerce.domain.User;
+import com.gabriellaureano.ecommerce.dto.OrderCreateDTO;
+import com.gabriellaureano.ecommerce.dto.OrderItemResponseDTO;
+import com.gabriellaureano.ecommerce.dto.OrderResponseDTO;
+import com.gabriellaureano.ecommerce.dto.UserResponseDTO;
 import com.gabriellaureano.ecommerce.repositories.OrderRepository;
 import com.gabriellaureano.ecommerce.repositories.UserRepository;
-import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class OrderService {
@@ -21,7 +24,7 @@ public class OrderService {
         this.userRepository = userRepository;
     }
 
-    public Order criarPedido(Long userId){
+    public OrderCreateDTO criarPedido(Long userId){
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("Usuario nao encontrado"));
 
@@ -30,11 +33,44 @@ public class OrderService {
         order.setUser(user);
         order.setData(LocalDateTime.now());
 
-        return orderRepository.save(order);
+        orderRepository.save(order);
+
+        OrderCreateDTO orderCreateDTO = new OrderCreateDTO(
+                order.getId(),
+                order.getData(),
+                order.getStatus(),
+                order.getUser().getId()
+        );
+        return orderCreateDTO;
     }
 
-    public Order buscarPedido(Long id){
-        return orderRepository.findById(id)
+    public OrderResponseDTO buscarpedido(Long id){
+        Order order = orderRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Pedido nao encontrado"));
+
+        User user = order.getUser();
+
+        List<OrderItemResponseDTO> itemsDto = order.getItems().stream()
+                .map(item -> new OrderItemResponseDTO(
+                        item.getProduct().getId(),
+                        item.getProduct().getNome(),
+                        item.getQuantidade(),
+                        item.getPrecoUnitario()
+                ))
+                .toList();
+
+        return new OrderResponseDTO(
+                order.getId(),
+                order.getData(),
+                order.getStatus(),
+                new UserResponseDTO(
+                        user.getId(),
+                        user.getNome(),
+                        user.getEmail()
+                ),
+                itemsDto
+        );
+
     }
+
 }

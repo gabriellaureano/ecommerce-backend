@@ -68,6 +68,10 @@ public class Product {
         return estoque;
     }
 
+    public void setEstoque(Integer estoque) {
+        this.estoque = estoque;
+    }
+
     public List<OrderItem> getItems() {
         return items;
     }

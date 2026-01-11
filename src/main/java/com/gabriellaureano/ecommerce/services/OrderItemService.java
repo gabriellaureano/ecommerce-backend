@@ -25,7 +25,7 @@ public class OrderItemService {
                 .orElseThrow(() -> new RuntimeException("pedido não encontrado"));
 
         Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new RuntimeException("produto não encontrado"));
+                .orElseThrow(() -> new RuntimeException("produto com id: " + productId + " não foi encontrado"));
 
         if (quantidade <= 0){
             throw new RuntimeException("Sem estoque no momento");
