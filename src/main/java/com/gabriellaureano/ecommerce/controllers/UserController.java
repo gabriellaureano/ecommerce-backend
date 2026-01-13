@@ -18,11 +18,14 @@ public class UserController {
         this.userService = userService;
     }
 
+
+    // CRIA UM NOVO USUÁRIO
     @PostMapping
     public User criar(@RequestBody @Valid UserCreateDTO userCreateDTO){
         return userService.criarUser(userCreateDTO);
     }
 
+    // BUSCA TODOS USUÁRIOS CRIADOS
     @GetMapping
     public List<UserResponseDTO> listar() {
         return userService.listarUsers();

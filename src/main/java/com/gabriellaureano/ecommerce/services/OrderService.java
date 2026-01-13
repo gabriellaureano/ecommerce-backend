@@ -1,6 +1,8 @@
 package com.gabriellaureano.ecommerce.services;
 
 import com.gabriellaureano.ecommerce.domain.Order;
+import com.gabriellaureano.ecommerce.domain.OrderItem;
+import com.gabriellaureano.ecommerce.domain.OrderStatus;
 import com.gabriellaureano.ecommerce.domain.User;
 import com.gabriellaureano.ecommerce.dto.OrderCreateDTO;
 import com.gabriellaureano.ecommerce.dto.OrderItemResponseDTO;
@@ -71,6 +73,43 @@ public class OrderService {
                 itemsDto
         );
 
+    }
+
+    public List<OrderResponseDTO> buscarTodosPedidos(){
+        List<Order> pedidosCriados = orderRepository.findAll().stream()
+                .filter(p -> p.getStatus() == OrderStatus.CRIADO)
+                .toList();
+
+
+        List<OrderResponseDTO> pedidosConvertidos = pedidosCriados.stream()
+                .map( pedido -> {
+
+                    List<OrderItemResponseDTO> itemsdto = pedido.getItems().stream()
+                            .map(item -> new OrderItemResponseDTO(
+                                    item.getProduct().getId(),
+                                    item.getProduct().getNome(),
+                                    item.getQuantidade(),
+                                    item.getPrecoUnitario()
+                            ))
+                            .toList();
+
+                    UserResponseDTO userDto = new UserResponseDTO(
+                            pedido.getUser().getId(),
+                            pedido.getUser().getNome(),
+                            pedido.getUser().getEmail()
+                    );
+
+                    return new OrderResponseDTO(
+                            pedido.getId(),
+                            pedido.getData(),
+                            pedido.getStatus(),
+                            userDto,
+                            itemsdto
+                    );
+                })
+                .toList();
+
+        return pedidosConvertidos;
     }
 
 }

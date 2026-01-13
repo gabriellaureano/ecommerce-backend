@@ -19,6 +19,10 @@ public class OrderItemController {
         this.orderItemService = orderItemService;
     }
 
+
+    // ADICIONA UM PRODUTO A UM ORDERITEM LIGADO AO PEDIDO
+
+    // MAIS RESUMIDO: ADICIONA UM PRODUTO AO PEDIDO
     @PostMapping("/orders/{orderId}/item")
         public OrderItem addProduct(@PathVariable Long orderId,@Valid @RequestBody AddProductDTO addProductDTO){
 

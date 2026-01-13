@@ -18,11 +18,13 @@ public class ProductController {
         this.productService = productService;
     }
 
+    // BUSCA TODOS OS PRODUTOS CRIADOS
     @GetMapping
     public List<Product> listar(){
         return productService.buscarProdutos();
     }
 
+    // CRIA UM NOVO PRODUTO
     @PostMapping
     public Product criar(@RequestBody @Valid ProductCreateDTO product){
         return productService.criarProduto(product);
